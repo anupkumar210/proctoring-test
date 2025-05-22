@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Proctoring Page</title>
+
+    <script>
+      const GlobalVariableWebWorker1RelativePath = "./webworker1.js";
+      const GlobalVariableWebWorker2RelativePath = "./webworker2.js";
+    </script>
+
+    <!-- Load SDK first -->
+    <script
+      type="text/javascript"
+      src="https://eduswitch-proctoring-script.web.app/Tenneo/tenneo-v7.js"></script>
+  </head>
+  <body>
+    <div style="margin-top: 200px">
+      <button
+        type="button"
+        onclick="startProt()"
+        style="padding: 10px 40px; margin-right: 10px">
+        Start
+      </button>
+      <button
+        id="stopButton"
+        type="button"
+        onclick="stopProt()"
+        style="padding: 10px 40px">
+        Stop
+      </button>
+    </div>
+
+    <div style="position: absolute; top: 0px; left: 0px; zoom: 0.44">
+      <video
+        id="videoFaceDetect"
+        width="320"
+        height="240"
+        autoplay
+        muted
+        playsinline
+        style="position: absolute"></video>
+      <canvas
+        id="canvasObjectDetection"
+        width="320"
+        height="240"
+        style="position: absolute"></canvas>
+      <canvas
+        id="canvas"
+        width="320"
+        height="240"
+        style="position: absolute; display: none"></canvas>
+      <canvas
+        id="canvas2"
+        width="320"
+        height="240"
+        style="position: absolute"></canvas>
+      <canvas
+        id="canvasTFFaceDetect"
+        width="320"
+        height="240"
+        style="position: absolute"></canvas>
+      <video
+        id="videoProctor"
+        width="320"
+        height="240"
+        autoplay
+        playsinline
+        style="position: absolute; left: 400px"></video>
+    </div>
+
+    <!-- Your custom script -->
+    <script>
+      async function init() {
+        console.log("Initializing...");
+      }
+
+      function startProt() {
+        const video = document.getElementById("videoFaceDetect");
+
+        // Disable Stop button for 5 seconds
+        const stopBtn = document.querySelector('button[onclick="stopProt()"]');
+        stopBtn.disabled = true;
+
+        // Re-enable after 5 seconds
+        setTimeout(() => {
+          stopBtn.disabled = false;
+        }, 5000);
+
+        InitiateProctoring(
+          video,
+          "Tenneo Sample Script Test - Sample Page",
+          "Neville Katila - Sample Page - dformat",
+          "Neville Katila - Sample Page",
+          "NK16072024SamplePage",
+          "proctor1",
+          "nevillekatila@gmail.com",
+          "TENNEO-CLIENT1UID",
+          function (error, warning) {
+            if (error) {
+              console.error("Initiate Error:", error);
+              alert("Error: " + error);
+            } else if (warning) {
+              console.warn("Warning:", warning);
+            }
+          }
+        );
+      }
+
+      function stopProt() {
+        EndProctoring();
+      }
+
+      // Ensure init runs after DOM is ready
+      window.onload = init;
+    </script>
+  </body>
+</html>
