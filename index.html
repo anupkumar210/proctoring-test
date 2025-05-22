@@ -97,12 +97,13 @@
           "proctor1",
           "nevillekatila@gmail.com",
           "TENNEO-CLIENT1UID",
-          function (error, warning) {
-            if (error) {
-              console.error("Initiate Error:", error);
-              alert("Error: " + error);
-            } else if (warning) {
-              console.warn("Warning:", warning);
+          function (ErrorMessage, StudentWarningMessage) {
+            if (ErrorMessage != null) {
+              console.error("Error in InitiateProctoring:", ErrorMessage);
+              showToast("Error: " + ErrorMessage);
+            } else if (StudentWarningMessage != null) {
+              console.info(StudentWarningMessage);
+              showToast(StudentWarningMessage);
             }
           }
         );
@@ -115,5 +116,38 @@
       // Ensure init runs after DOM is ready
       window.onload = init;
     </script>
+
+    <div id="toast" style="
+      visibility: hidden;
+      min-width: 250px;
+      margin-left: -125px;
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      border-radius: 4px;
+      padding: 12px;
+      position: fixed;
+      z-index: 9999;
+      left: 50%;
+      bottom: 30px;
+      font-size: 16px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    ">
+    </div>
+    
+    <script>
+      function showToast(message) {
+        const toast = document.getElementById("toast");
+        toast.textContent = message;
+        toast.style.visibility = "visible";
+        toast.style.opacity = 1;
+    
+        setTimeout(() => {
+          toast.style.opacity = 0;
+          toast.style.visibility = "hidden";
+        }, 3000);
+      }
+    </script>
+
   </body>
 </html>
